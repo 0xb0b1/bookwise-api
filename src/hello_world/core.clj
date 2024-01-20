@@ -11,6 +11,15 @@
   ([request respond raise]
    (respond (what-is-my-ip request))))
 
+(defn content-type-response [response content-type]
+  (assoc-in response [:headers "Content-Type"] content-type))
+
+(defn wrap-content-type [handler content-type]
+  (fn ([request]
+       (-> (handler request) (content-type-response content-type)))
+    ([request respond raise]
+     (handler request #(response (content-type-response % content-type)) raise))))
+
 (defroutes app-routes
   (GET "/" [] (response "Hello World"))
   (GET "/ip" response

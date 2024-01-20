@@ -1,6 +1,6 @@
 # hello-world
 
-FIXME
+A simple Rest API with Clojure + Ring
 
 ## Prerequisites
 

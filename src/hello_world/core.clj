@@ -4,15 +4,17 @@
             [ring.util.response :refer [response]]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
 
-(defn what-is-my-ip [request]
-  {:status 200
-   :headers {"Content-Type" "text/plain"}
-   :body (:remote-addr request)})
+(defn what-is-my-ip ([request]
+                     {:status 200
+                      :headers {"Content-Type" "text/plain"}
+                      :body (:body request)})
+  ([request respond raise]
+   (respond (what-is-my-ip request))))
 
 (defroutes app-routes
   (GET "/" [] (response "Hello World"))
   (GET "/ip" response
-       (what-is-my-ip response))
+    (str response))
   (route/not-found "Not Found"))
 
 (def app
